@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       }
       if (snapshot.connectionState == ConnectionState.done){
         return MaterialApp(
-          title: 'Flutter Firestore Demo',
+          title: 'EasyService',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),

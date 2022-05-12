@@ -11,7 +11,7 @@ class ListContents extends StatefulWidget {
 
 class _ListContentsState extends State<ListContents> {
 
-  final Stream<QuerySnapshot> collegeInfoStream = FirebaseFirestore.instance.collection('CollegeInfo').snapshots();
+  final Stream<QuerySnapshot> collegeInfoStream = FirebaseFirestore.instance.collection('CustomerInfo').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +89,15 @@ class _ListContentsState extends State<ListContents> {
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: Text(contentsDocs[i]['department'].toString(),style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 30),),
+                                            child: Text(contentsDocs[i]['carModel'].toString(),style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 30),),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: Text(contentsDocs[i]['name'],style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 25),),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left:6.0,top:3.0 ),
+                                            child: Text(contentsDocs[i]['phoneNo'],style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 19),),
                                           ),
 
                                           Padding(
@@ -102,7 +106,7 @@ class _ListContentsState extends State<ListContents> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(left:6.0,top:3.0 ),
-                                            child: Text(contentsDocs[i]['address'].toString(),style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            child: SizedBox( width:297.0,child: Text(contentsDocs[i]['address'].toString(),overflow: TextOverflow.fade,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 18),)),
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(left:6.0,top:6.0 ),
@@ -114,7 +118,7 @@ class _ListContentsState extends State<ListContents> {
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.only(left:6.0,top:3.0 ),
-                                            child: Text('Issue:'+contentsDocs[i]['serviceDetails'].toString(),maxLines:7,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 18),overflow: TextOverflow.fade,),
+                                            child: SizedBox(width:297.0,child: Text('Issue : '+contentsDocs[i]['serviceDetails'].toString(),overflow: TextOverflow.fade,maxLines:7,style: const TextStyle(fontWeight: FontWeight.w500,fontSize: 18),)),
                                           ),
                                         ],
 
@@ -139,9 +143,9 @@ class _ListContentsState extends State<ListContents> {
       );
   }
 
-  CollectionReference collegeInfo = FirebaseFirestore.instance.collection('CollegeInfo');
+  CollectionReference customerInfo = FirebaseFirestore.instance.collection('CustomerInfo');
   Future<void > _delete(id) {
-    return collegeInfo.doc(id).delete().then((value) => print('User Deleted')).catchError((error)=> print('Failed Delete'));
+    return customerInfo.doc(id).delete().then((value) => print('User Deleted')).catchError((error)=> print('Failed Delete'));
 
   }
 }

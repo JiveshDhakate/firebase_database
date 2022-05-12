@@ -14,6 +14,7 @@ class _AddContentsState extends State<AddContents> {
   final TextEditingController _serviceDetailsController = TextEditingController();
   final TextEditingController _inTimeController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController(text: "+91");
 
   var name = "";
   var department = "";
@@ -22,6 +23,7 @@ class _AddContentsState extends State<AddContents> {
   var address = "";
   var inTime = "";
   var date = "";
+  var phoneNumber="";
   @override
   final _formKey = GlobalKey<FormState>();
   Widget build(BuildContext context) {
@@ -63,7 +65,33 @@ class _AddContentsState extends State<AddContents> {
                     borderSide: BorderSide(color: Colors.red, width: 5.0),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  hintText: 'Customer Name',
+                  hintText: 'Please Enter Customer Name',
+                  labelText: 'Customer Name',
+                ),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please Enter Valid Information';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                controller: _phoneController,
+                keyboardType: TextInputType.number,
+                decoration:  InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.greenAccent, width: 5.0),
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red, width: 5.0),
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  hintText: 'Phone Number',
+                  labelText: "Phone Number",
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -86,7 +114,8 @@ class _AddContentsState extends State<AddContents> {
                     borderSide: BorderSide(color: Colors.red, width: 5.0),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  hintText: 'Car Model Name and Company Name  ',
+                  hintText: 'Please Enter Car Model Name and Company Name  ',
+                  labelText: 'Car Model Name and Company Name  ',
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -109,7 +138,8 @@ class _AddContentsState extends State<AddContents> {
                     borderSide: BorderSide(color: Colors.red, width: 5.0),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  hintText: 'Car Registration Number',
+                  hintText: 'Please Enter Car Registration Number',
+                  labelText: 'Car Registration Number',
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -132,7 +162,8 @@ class _AddContentsState extends State<AddContents> {
                     borderSide: BorderSide(color: Colors.red, width: 5.0),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  hintText: 'Customer Address',
+                    hintText: 'Please Customer Address',
+                    labelText:'Customer Address'
                 ),
                 maxLines: 4,
                 validator: (value) {
@@ -157,7 +188,8 @@ class _AddContentsState extends State<AddContents> {
                     borderSide: BorderSide(color: Colors.red, width: 5.0),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  hintText: 'Date',
+                    hintText: 'Please Enter Date of Appointment',
+                    labelText: 'Date',
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -181,7 +213,8 @@ class _AddContentsState extends State<AddContents> {
                     borderSide: BorderSide(color: Colors.red, width: 5.0),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  hintText: 'Time',
+                  hintText: 'Please Enter Time of Dropping the Car',
+                  labelText: 'Time',
                 ),
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -204,7 +237,8 @@ class _AddContentsState extends State<AddContents> {
                     borderSide: BorderSide(color: Colors.red, width: 5.0),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
-                  hintText: 'Service Required/Problem Faced',
+                  hintText: 'Please Enter Service Required/Problem Faced',
+                  labelText: 'Service Required/Problem Faced',
                 ),
                 maxLines: 7,
                 validator: (value) {
@@ -214,6 +248,7 @@ class _AddContentsState extends State<AddContents> {
                   return null;
                 },
               ),
+
               const SizedBox(
                 height: 20,
               ),
@@ -234,6 +269,7 @@ class _AddContentsState extends State<AddContents> {
                     serviceDetails =_serviceDetailsController.text;
                     inTime=_inTimeController.text;
                     date=_dateController.text;
+                    phoneNumber=_phoneController.text;
                     if (_formKey.currentState!.validate()) {
                       await _addItem();
                       Navigator.of(context).pop();
@@ -251,8 +287,8 @@ class _AddContentsState extends State<AddContents> {
       ),
     );
   }
-  CollectionReference collegeInfo = FirebaseFirestore.instance.collection('CollegeInfo');
+  CollectionReference customerInfo = FirebaseFirestore.instance.collection('CustomerInfo');
   Future<void> _addItem() {
-    return collegeInfo.add({'name':name,'department':department,'regNo':regNo,'address':address,'serviceDetails':serviceDetails,'inTime':inTime,'date':date}).then((value) => print('User Added')).catchError((error)=> print('Failed Adding'));
+    return customerInfo.add({'name':name,'carModel':department,'regNo':regNo,'address':address,'serviceDetails':serviceDetails,'inTime':inTime,'date':date,'phoneNo':phoneNumber}).then((value) => print('User Added')).catchError((error)=> print('Failed Adding'));
   }
 }
